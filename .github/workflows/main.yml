@@ -1,0 +1,23 @@
+name: Scheduled merge action
+on: 
+  schedule:
+    - cron: '0 0 * * 1'
+    # scheduled for 00:00 every Monday
+
+jobs:
+  merge-from-upstream-repo:
+    runs-on: ubuntu-latest
+    steps: 
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: develop             # set the branch to merge to
+          fetch-depth: 0            # get all changes
+      - name: Merge from upstream repo
+        uses: discdiver/merge-from-upstream-repo@v0.0.9
+        with:
+          useremail: actions@github.com     # set the user email for git commits
+          username:  Merge Upstream Action  # set the user name for git commits
+          upstream: nordic-institute/misp2  # set the upstream repo
+          upstream-branch: develop          # set the upstream branch to merge from
+          branch: develop                   # set the branch to merge to
