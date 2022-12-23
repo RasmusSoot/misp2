@@ -18,3 +18,13 @@ services:
     volumes:
       - "./db:/docker-entrypoint-initdb.d"
       - "./pgdata:/var/lib/postgresql/data"
+
+  compile:
+    build:
+      context: ../packages/docker-compile
+      args:
+        uid: 1000
+        gid: 1000
+    volumes:
+      - ../:/mnt
+    command: sh -c 'chmod +x /mnt/gradlew && /mnt/gradlew deployDevAdminTool deployDevOrbeon deployDevMisp --info'

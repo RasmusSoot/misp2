@@ -13,12 +13,12 @@ The development environment is set up using docker compose, with two containers:
 The environment can be started with the following command:
 
 ```bash
-docker compose up -d
+docker compose up -d misp db
 ```
 
 The environment can be stopped with the following command:
 ```bash
-docker compose down
+docker compose down misp db
 ```
 
 ### First run
@@ -44,19 +44,11 @@ cd /utils
 
 This will prompt you to enter the username and password for the administrator user.
 
-### Deploying the web application and Orbeon
+### Deploying the web application, Orbeon and AdminTool.jar utility
 
-To deploy the war files for the applications, move back to the root directory of the project
-and execute the following command:
-
-```bash
-./gradlew deployDevOrbeon deployDevMisp
-```
-
-### Deploying the AdminTool.jar utility
-
-To deploy the `AdminTool.jar` utility into `/utils` in the container, execute the following command:
+To deploy the war files for the applications execute the following command:
 
 ```bash
-./gradlew deployDevAdminTool
+mkdir webapps pgdata
+docker compose up --build compile
 ```
