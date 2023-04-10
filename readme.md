@@ -12,12 +12,12 @@ a unified way to access different services.
 
 This respository contains the following modules:
 
-* [packages](./packages) which contains the installation scripts and packaging related functionality
-* [orbeon-war](./orbeon-war) which contains the build files for the customised [Orbeon Forms](https://www.orbeon.com/)
+- [packages](./packages) which contains the installation scripts and packaging related functionality
+- [orbeon-war](./orbeon-war) which contains the build files for the customised [Orbeon Forms](https://www.orbeon.com/)
   instance
-* [web-app](./web-app) which contains the source of the MISP2 web application itself
-* [admin-tool](./utils/admin-tool) which contains the source for the `AdminTool.jar` utility
-* [property-synchronizer](./utils/property-synchronizer) which contains the source for the `propertySynchronizer.jar`
+- [web-app](./web-app) which contains the source of the MISP2 web application itself
+- [admin-tool](./utils/admin-tool) which contains the source for the `AdminTool.jar` utility
+- [property-synchronizer](./utils/property-synchronizer) which contains the source for the `propertySynchronizer.jar`
   utility
 
 The for source code for the modules all of the modules
@@ -41,11 +41,11 @@ See the instructions in [docker-dev/readme.md](./docker-dev/readme.md)
 More information about the software and how to use it can be found under the
 [docs](./docs) directory, which contains the following documents:
 
-* [Architecture](docs/misp2_architecture.md)
-* [Installation guide](docs/misp2_installation_manual_18.04.md)
-* [Manager guide](docs/misp2_manager_guide.md)
-* [User guide](docs/misp2_user_guide.md)
-* [Complex services](docs/misp2_creating_complex_queries.md)
+- [Architecture](docs/misp2_architecture.md)
+- [Installation guide](docs/misp2_installation_manual_22.04.md)
+- [Manager guide](docs/misp2_manager_guide.md)
+- [User guide](docs/misp2_user_guide.md)
+- [Complex services](docs/misp2_creating_complex_queries.md)
 
 ## Support disclaimer
 
@@ -53,13 +53,13 @@ The following activities, among others, are undertaken by the [Nordic Institute
 for Interoperability Solutions (NIIS)](https://www.niis.org/) with regard to the
 MISP2 software:
 
-* management, development, verification, and audit of the source code
-* administration of documentation
-* administration of business and technical requirements
-* conducting development
-* developing and implementing principles of licensing and distribution
-* providing second-line support for the NIIS members
-* international cooperation.
+- management, development, verification, and audit of the source code
+- administration of documentation
+- administration of business and technical requirements
+- conducting development
+- developing and implementing principles of licensing and distribution
+- providing second-line support for the NIIS members
+- international cooperation.
 
 [X-Road Technology Partners](https://x-road.global/xroad-technology-partners)
 are enterprises providing X-Road consultation services, e.g. deploying
@@ -70,7 +70,7 @@ No support for MISP2 deployment is provided here.
 
 ## Credits
 
-* MISP2 was originally developed by the [Estonian Information System
+- MISP2 was originally developed by the [Estonian Information System
   Authority](https://www.ria.ee/en.html) during 2015-2020.
-* In 2020 it was agreed that [Nordic Institute for Interoperability Solutions
+- In 2020 it was agreed that [Nordic Institute for Interoperability Solutions
   (NIIS)](https://www.niis.org/) takes maintenance responsibility.

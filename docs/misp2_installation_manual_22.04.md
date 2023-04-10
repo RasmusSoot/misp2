@@ -1,21 +1,15 @@
 | ![European Union / European Regional Development Fund / Investing in your future](img/eu_rdf_75_en.png "Documents that are tagged with EU/SF logos must keep the logos until 1.1.2022, if it has not stated otherwise in the documentation. If new documentation is created  using EU/SF resources the logos must be tagged appropriately so that the deadline for logos could be found.") |
-| -------------------------: |
+| -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
 
 # MISP2 Installation and Configuration Guide
 
-Version: 2.19
+Version: 1.0
 
 ## Version history <!-- omit in toc -->
 
- Date       | Version | Description                                                               | Author
- ---------- | ------- | ------------------------------------------------------------------------- | --------------------
- 25.05.2021 | 2.13    | Convert from Word to Markdown                                             | Raido Kaju
- 17.06.2021 | 2.14    | Update MISP2 package repository info                                      | Petteri Kivimäki
- 30.06.2021 | 2.15    | Added information about additional mobileID parameters and upgrade notice | Raido Kaju
- 01.07.2021 | 2.16    | Update 3rd party key server                                               | Petteri Kivimäki
- 12.07.2021 | 2.17    | Added manual Estonian ID-card installation instructions                   | Raido Kaju
- 17.02.2022 | 2.18    | Added instructions on configuring ID-card authentication on `<Location/>` | Raido Kaju
- 03.03.2022 | 2.19    | Added instructions on updating EHAK classifiers for Estonian users        | Raido Kaju
+| Date       | Version | Description                              | Author     |
+| ---------- | ------- | ---------------------------------------- | ---------- |
+| 06.04.2023 | 1.0     | Add installation manual for Ubuntu 22.04 | Raido Kaju |
 
 ## License <!-- omit in toc -->
 
@@ -24,42 +18,41 @@ To view a copy of this license, visit <https://creativecommons.org/licenses/by-s
 
 ## Table of content <!-- omit in toc -->
 
-* [1 Introduction](#1-introduction)
-* [2 Environment requirements](#2-environment-requirements)
-* [3 AdoptOpenJDK 8 installation (recommended)](#3-adoptopenjdk-8-installation-recommended)
-* [4 MISP2 installation](#4-misp2-installation)
-  * [4.1 Setup package repository](#41-setup-package-repository)
-    * [4.1.1 Doing a version upgrade](#411-doing-a-version-upgrade)
-  * [4.2 MISP2 database package](#42-misp2-database-package)
-  * [4.3 MISP2 application](#43-misp2-application)
-    * [4.3.1 Apache Tomcat + Apache HTTP Server + MISP2 base package](#431-apache-tomcat--apache-http-server--misp2-base-package)
-    * [4.3.2 MISP2 web application](#432-misp2-web-application)
-* [5 Configuration](#5-configuration)
-  * [5.1 Configuring an HTTPS certificate for the MISP2 Apache web server](#51-configuring-an-https-certificate-for-the-misp2-apache-web-server)
-  * [5.2 MISP2 configuration file](#52-misp2-configuration-file)
-  * [5.3 Configuring HTTPS connection between MISP2 application and X-Road Security Server](#53-configuring-https-connection-between-misp2-application-and-x-road-security-server)
-  * [5.4 Configuration of Mobile-ID](#54-configuration-of-mobile-id)
-    * [5.4.1 Service parameters](#541-service-parameters)
-  * [5.5 Other settings](#55-other-settings)
-    * [5.5.1 Configuration of the JAVA VM](#551-configuration-of-the-java-vm)
-    * [5.5.2 Logging settings](#552-logging-settings)
-    * [5.5.3 Adding a HTTPS certificate](#553-adding-a-https-certificate)
-  * [5.6 Enabling the Orbeon inspector](#56-enabling-the-orbeon-inspector)
-  * [5.7 Configuring support for the Estonian ID-card](#57-configuring-support-for-the-estonian-id-card)
-    * [5.7.1 Additional ID-card configuration options](#571-additional-id-card-configuration-options)
-  * [5.8 Updating EHAK classifiers to EHAK2021v4](#58-updating-ehak-classifiers-to-ehak2021v4)
-* [6 MISP2 administration interface](#6-misp2-administration-interface)
-  * [6.1 Administration of MISP2 administrator accounts from the command line](#61-administration-of-misp2-administrator-accounts-from-the-command-line)
-  * [6.2 Additions to the Apache web server configuration](#62-additions-to-the-apache-web-server-configuration)
-    * [6.2.1 Using the tool](#621-using-the-tool)
-    * [6.2.2 Editing manually](#622-editing-manually)
-  * [6.3 Portal administration](#63-portal-administration)
-    * [6.3.1 Creating portal](#631-creating-portal)
-    * [6.3.2 Modifying portal](#632-modifying-portal)
-    * [6.3.3 Deleting portal](#633-deleting-portal)
-    * [6.3.4 Adding portal manager](#634-adding-portal-manager)
-    * [6.3.5 Removing a portal administrator](#635-removing-a-portal-administrator)
-  * [6.4 Administration of global XLSs](#64-administration-of-global-xlss)
+- [1 Introduction](#1-introduction)
+- [2 Environment requirements](#2-environment-requirements)
+- [3 MISP2 installation](#3-misp2-installation)
+  - [3.1 Setup package repository](#31-setup-package-repository)
+    - [3.1.1 Doing a version upgrade](#311-doing-a-version-upgrade)
+  - [3.2 MISP2 database package](#32-misp2-database-package)
+  - [3.3 MISP2 application](#33-misp2-application)
+    - [3.3.1 Apache Tomcat + Apache HTTP Server + MISP2 base package](#331-apache-tomcat--apache-http-server--misp2-base-package)
+    - [3.3.2 MISP2 web application](#332-misp2-web-application)
+- [4 Configuration](#4-configuration)
+  - [4.1 Configuring an HTTPS certificate for the MISP2 Apache web server](#41-configuring-an-https-certificate-for-the-misp2-apache-web-server)
+  - [4.2 MISP2 configuration file](#42-misp2-configuration-file)
+  - [4.3 Configuring HTTPS connection between MISP2 application and X-Road Security Server](#43-configuring-https-connection-between-misp2-application-and-x-road-security-server)
+  - [4.4 Configuration of Mobile-ID](#44-configuration-of-mobile-id)
+    - [4.4.1 Service parameters](#441-service-parameters)
+  - [4.5 Other settings](#45-other-settings)
+    - [4.5.1 Configuration of the JAVA VM](#451-configuration-of-the-java-vm)
+    - [4.5.2 Logging settings](#452-logging-settings)
+    - [4.5.3 Adding a HTTPS certificate](#453-adding-a-https-certificate)
+  - [4.6 Enabling the Orbeon inspector](#46-enabling-the-orbeon-inspector)
+  - [4.7 Configuring support for the Estonian ID-card](#47-configuring-support-for-the-estonian-id-card)
+    - [4.7.1 Additional ID-card configuration options](#471-additional-id-card-configuration-options)
+  - [4.8 Updating EHAK classifiers to EHAK2021v4](#48-updating-ehak-classifiers-to-ehak2021v4)
+- [5 MISP2 administration interface](#5-misp2-administration-interface)
+  - [5.1 Administration of MISP2 administrator accounts from the command line](#51-administration-of-misp2-administrator-accounts-from-the-command-line)
+  - [5.2 Additions to the Apache web server configuration](#52-additions-to-the-apache-web-server-configuration)
+    - [5.2.1 Using the tool](#521-using-the-tool)
+    - [5.2.2 Editing manually](#522-editing-manually)
+  - [5.3 Portal administration](#53-portal-administration)
+    - [5.3.1 Creating portal](#531-creating-portal)
+    - [5.3.2 Modifying portal](#532-modifying-portal)
+    - [5.3.3 Deleting portal](#533-deleting-portal)
+    - [5.3.4 Adding portal manager](#534-adding-portal-manager)
+    - [5.3.5 Removing a portal administrator](#535-removing-a-portal-administrator)
+  - [5.4 Administration of global XLSs](#54-administration-of-global-xlss)
 
 ## 1 Introduction
 
@@ -68,62 +61,19 @@ application.
 
 ## 2 Environment requirements
 
-* Supported operating system: Ubuntu Server 18.04 Long-Term Support (LTS),
+- Supported operating system: Ubuntu Server 22.04 Long-Term Support (LTS),
   64-bit.
-* Supported Java version: 8, AdoptOpenJDK 8 is recommended after April 2021.
-* Needs connection with an X-Road Security Server (internal interface), which
+- Supported Java version: 8
+- Needs connection with an X-Road Security Server (internal interface), which
   has an X-Road setup in place; MISP2 operates through X-Road.
-* Recommended hardware requirements: 64-bit processor, 4 GB of RAM
-* Optional requirements:
-  * OCSP validation service contract with Estonian Certification Center if you
+- Recommended hardware requirements: 64-bit processor, 4 GB of RAM
+- Optional requirements:
+  - OCSP validation service contract with Estonian Certification Center if you
     enable query response signing in MISP2 web application and use OSCP to check
     user certificates during ID-card identification.
-  * OCSP responder certificate for OCSP response signature check.
+  - OCSP responder certificate for OCSP response signature check.
 
-## 3 AdoptOpenJDK 8 installation (recommended)
-
-Ubuntu provides Java via OpenJDK delivery. Support for Java version 8 ends at
-April in the OpenJDK delivery. For that reason it`s recommended to install Java
-8 from AdoptOpenJDK distribution, where it will be supported until 2026.
-
-AdoptOpenJDK Java 8 installation is described below.
-
-These steps require root privileges. These can be gained using the following
-command:
-
-```bash
-sudo -i
-```
-
-Import the AdoptOpenJDK GPG key:
-
-```bash
-wget -qO - https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | sudo apt-key add -
-```
-
-Configure AdoptOpenJDK's apt repository:
-
-```bash
-echo "deb https://adoptopenjdk.jfrog.io/adoptopenjdk/deb $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/adoptopenjdk.list
-```
-
-Install the Java runtime environment and set it as the default java:
-
-```bash
-sudo apt-get update
-sudo apt install adoptopenjdk-8-hotspot-jre
-sudo update-java-alternatives -s adoptopenjdk-8-hotspot-jre-amd64
-```
-
-Then add it as tomcat8 default Java installation:
-
-```bash
-update-java-alternatives -l | cut --delimiter=" " --fields=9 | xargs -I{} sudo echo "JAVA_HOME={}" >> /etc/default/tomcat8
-```
-
-After that the MISP2 will use the AdoptOpenJDK Java after installation
-
-## 4 MISP2 installation
+## 3 MISP2 installation
 
 This chapter describes the installation of MISP2 portal components. Installation
 requires root privileges. These can be gained using the following command:
@@ -142,9 +92,9 @@ wget -qO - https://artifactory.niis.org/api/gpg/key/public | apt-key add -
 
 The following information can be used to verify the key:
 
-* key hash: `935CC5E7FA5397B171749F80D6E3973B`
-* key fingerprint: `A01B FE41 B9D8 EAF4 872F  A3F1 FB0D 532C 10F6 EC5B`
-* 3rd party key server: [Ubuntu key server](https://keyserver.ubuntu.com/pks/lookup?search=0xfb0d532c10f6ec5b&fingerprint=on&op=index)
+- key hash: `935CC5E7FA5397B171749F80D6E3973B`
+- key fingerprint: `A01B FE41 B9D8 EAF4 872F A3F1 FB0D 532C 10F6 EC5B`
+- 3rd party key server: [Ubuntu key server](https://keyserver.ubuntu.com/pks/lookup?search=0xfb0d532c10f6ec5b&fingerprint=on&op=index)
 
 Add MISP2 package repository:
 
@@ -158,17 +108,17 @@ The package list should then be updated with the command:
 apt-get update
 ```
 
-#### 4.1.1 Doing a version upgrade
+#### 3.1.1 Doing a version upgrade
 
 Due to a known issue in the installation package, please perform the following
 action after upgrading your MISP2 installation:
 
-* Open the file /var/lib/tomcat8/webapps/misp2/WEB-INF/classes/config.cfg.
-* Uncomment the line mobileID.rest.trustStore.path = MOBILE_ID_TRUST_STORE_PATH
+- Open the file /var/lib/tomcat9/webapps/misp2/WEB-INF/classes/config.cfg.
+- Uncomment the line mobileID.rest.trustStore.path = MOBILE_ID_TRUST_STORE_PATH
   by removing the # symbol from the beginning of the line (the value can remain
   as is).
 
-### 4.2 MISP2 database package
+### 3.2 MISP2 database package
 
 The MISP2 database package `xtee-misp2-postgresql` is installed with default
 settings using the command:
@@ -182,13 +132,13 @@ The default role i.e. username is `misp2` and only the password is queried.
 
 ```text
 Creating database 'misp2db'
-Enter password for new role: 
+Enter password for new role:
 Enter it again:
 ```
 
 The same password is needed again during MISP2 application installation.
 
-### 4.3 MISP2 application
+### 3.3 MISP2 application
 
 Install the package `xtee-misp2-application`.
 
@@ -198,28 +148,27 @@ apt-get install xtee-misp2-application
 
 This package is dependent on the `xtee-misp2-base` and `xtee-misp2-orbeon`
 packages, which, in turn, are dependent on the `apache2`, `libapache2-mod-jk`,
-and `tomcat8` packages. These packages will be installed automatically.
+and `tomcat9` packages. These packages will be installed automatically.
 
 The installation utility will ask a number of questions, which will be explained
 in the chapters below.
 
-#### 4.3.1 Apache Tomcat + Apache HTTP Server + MISP2 base package
-
-If you installed the alternative AdoptOpenJDK, as instructed above, you will be
-presented question about `/etc/default/tomcat8`.
+Due to an issue with Tomcat 9 and JAVA8 on Ubuntu 22.04, the following additional
+steps need to be taken:
 
 ```bash
-tomcat8: A new version (...) of configuration file /etc/default/tomcat8 is available, but the version 
-installed currently has been locally modified.
-
-What do you want to do about modified configuration file tomcat8?
+sudo apt install libecj-java
+sudo ln -s /usr/share/java/ecj.jar /var/lib/tomcat9/lib
+sudo systemctl restart tomcat9
 ```
 
-Select that you want to “keep the local version currently installed”.
+More information about the issue is available [here](https://bugs.launchpad.net/ubuntu/+source/tomcat9/+bug/1972829).
+
+#### 3.3.1 Apache Tomcat + Apache HTTP Server + MISP2 base package
 
 Overview of operations performed by the installation package:
 
-1. Configures memory for Tomcat in the file `/etc/default/tomcat8`:
+1. Configures memory for Tomcat in the file `/etc/default/tomcat9`:
 
    ```bash
    JAVA_OPTS="${JAVA_OPTS} –Xms512m –Xmx512m -XX:MaxPermSize=256m"
@@ -250,16 +199,16 @@ Overview of operations performed by the installation package:
 
 Configuration files and directories installed:
 
-* /etc/apache2/sites-available/ssl.conf
-* /etc/apache2/ssl/
-* /etc/apache2/ssl/create_server_cert.sh
-* /etc/apache2/ssl/create_ca_cert.sh
-* /etc/apache2/ssl/cleanXFormsDir.sh
-* /etc/apache2/ssl/create_sslproxy_cert.sh
-* /etc/apache2/ssl/updatecrl.sh
-* /var/lib/tomcat8/conf/server.xml
+- /etc/apache2/sites-available/ssl.conf
+- /etc/apache2/ssl/
+- /etc/apache2/ssl/create_server_cert.sh
+- /etc/apache2/ssl/create_ca_cert.sh
+- /etc/apache2/ssl/cleanXFormsDir.sh
+- /etc/apache2/ssl/create_sslproxy_cert.sh
+- /etc/apache2/ssl/updatecrl.sh
+- /var/lib/tomcat8/conf/server.xml
 
-#### 4.3.2 MISP2 web application
+#### 3.3.2 MISP2 web application
 
 Answer `y` to the next question to configure MISP2 as an international (EU)
 version or `n` to configure it as an Estonian version (see below for the
@@ -283,7 +232,7 @@ In the case of the Estonian version, the following configuration is used:
 
 ```properties
 languages = et
-countries = EE 
+countries = EE
 xrd.namespace=http://x-road.ee/xsd/x-road.xsd
 ```
 
@@ -321,7 +270,7 @@ Next, e-mail related parameters are specified (SMTP server address, e-mail
 address used by MISP2):
 
 ```bash
-Please provide a SMTP host address [default: smtp.domain.ee]: 
+Please provide a SMTP host address [default: smtp.domain.ee]:
 Please provide a server email address: [default: info@domain.ee]:
 ```
 
@@ -341,15 +290,15 @@ can be accessed as described in the [Admin Tool user manual](../utils/admin-tool
 In a production environment, the particular institution’s certificate should
 also be added to the Apache HTTP server to allow for HTTPS connections. This is
 described in Section
-[5.3](#53-configuring-https-connection-between-misp2-application-and-x-road-security-server)
+[4.3](#43-configuring-https-connection-between-misp2-application-and-x-road-security-server)
 of this guide.
 
 If the Estonian ID-card based authentication needs to be supported, please read
-Section [5.7](#57-configuring-support-for-the-estonian-id-card) of this guide.
+Section [4.7](#47-configuring-support-for-the-estonian-id-card) of this guide.
 
-## 5 Configuration
+## 4 Configuration
 
-### 5.1 Configuring an HTTPS certificate for the MISP2 Apache web server
+### 4.1 Configuring an HTTPS certificate for the MISP2 Apache web server
 
 During initial installation, a self-signed certificate is generated for the
 Apache HTTP server. In a production environment, it is advisory to replace this
@@ -358,7 +307,7 @@ with an actual CA- issued certificate.
 By default, Apache uses the following certificate files:
 
 ```properties
- SSLCertificateFile /etc/apache2/ssl/httpsd.cert 
+ SSLCertificateFile /etc/apache2/ssl/httpsd.cert
  SSLCertificateKeyFile /etc/apache2/ssl/httpsd.key
 ```
 
@@ -369,7 +318,7 @@ changes to be lost). The contents of the DH parameter file
 (`/etc/apache2/ssl/dhparams.pem`) should also be added at the end your
 certificate file (`httpsd.cert`).
 
-### 5.2 MISP2 configuration file
+### 4.2 MISP2 configuration file
 
 The MISP2 installation script will configure the database connection and other
 parameters in the `config.cfg` configuration file. After installation, some
@@ -377,7 +326,7 @@ parameters can be changed in the configuration file. By default, its location
 is:
 
 ```bash
-/var/lib/tomcat8/webapps/misp2/WEB-INF/classes/config.cfg
+/var/lib/tomcat9/webapps/misp2/WEB-INF/classes/config.cfg
 ```
 
 Below is a list of some parameters which, though automatically set during
@@ -386,24 +335,23 @@ installation, may later need to be changed when the application is reconfigured.
 **NB!** Due to a known issue in the installation package, please perform the
 following action after completing your MISP2 installation:
 
-* Open the file `/var/lib/tomcat8/webapps/misp2/WEB-INF/classes/config.cfg`.
-* Uncomment the line `mobileID.rest.trustStore.path =
-  MOBILE_ID_TRUST_STORE_PATH` by removing the `#` symbol from the beginning of
+- Open the file `/var/lib/tomcat9/webapps/misp2/WEB-INF/classes/config.cfg`.
+- Uncomment the line `mobileID.rest.trustStore.path = MOBILE_ID_TRUST_STORE_PATH` by removing the `#` symbol from the beginning of
   the line (the value can remain as is).
 
 After the configuration file is changed, tomcat must always be restarted using
 the command:
 
 ```bash
-service tomcat8 restart
+systemctl restart tomcat9
 ```
 
 Parameters for establishing a connection with a database server:
 
 ```properties
-# DB Info – database server and user parameters 
-jdbc.driver=org.postgresql.Driver 
-jdbc.url=jdbc:postgresql://IP/DB-NAME 
+# DB Info – database server and user parameters
+jdbc.driver=org.postgresql.Driver
+jdbc.url=jdbc:postgresql://IP/DB-NAME
 jdbc.username=USERNAME
 jdbc.password=PASSWORD
 jdbc.databasePlatform=org.hibernate.dialect.PostgreSQLDialect
@@ -423,7 +371,7 @@ countries = EE
 Server ID-card parameters (for server-side digital signing and encryption):
 
 ```properties
-# ID Card and its usage settings 
+# ID Card and its usage settings
 digidoc.config_file=jar://JDigiDocID.cfg
 digidoc.PIN2=01497
 
@@ -435,27 +383,26 @@ Mail server parameters:
 
 ```properties
 email.host = mailserver.domain.ee
-email.sender.name = MISP2 Support 
+email.sender.name = MISP2 Support
 email.sender.email = info@asutus.ee
 ```
 
 Mobile-ID authentication setup parameters:
 
 ```properties
-# Mobile ID and its usage settings 
-mobileID.digidocServiceURL = https://digidocservice.sk.ee/ 
+# Mobile ID and its usage settings
+mobileID.digidocServiceURL = https://digidocservice.sk.ee/
 mobileID.serviceName = Testimine
 mobileID.rest.trustStore.password = CHANGEME
 mobileID.rest.trustStore.path = MOBILE_ID_TRUST_STORE_PATH
 ```
 
-### 5.3 Configuring HTTPS connection between MISP2 application and X-Road Security Server
+### 4.3 Configuring HTTPS connection between MISP2 application and X-Road Security Server
 
 The steps for configuring HTTPS:
 
 1. Export the Security Server’s certificate file `certs.tar.gz` from the
-   Security Server (see Chapter 9 of the X-Road 6 Security Server user guide: `9
-   Communication with the Client Information Systems`) and copy it to the MISP2
+   Security Server (see Chapter 9 of the X-Road 6 Security Server user guide: `9 Communication with the Client Information Systems`) and copy it to the MISP2
    server’s `/usr/xtee/apache2/` directory. The name of the certificate for
    X-Road v6 Security Server is `certs.tar.gz`.
 2. Run the configuration script on the MISP2 server:
@@ -476,7 +423,7 @@ The steps for configuring HTTPS:
    The script uses following prompting when started: If the file has been copied
    to the MISP2 server, the user should answer `y`. Answer `n` if you wish to
    cancel the operation, in which case the HTTPS configuration can be performed
-   again later as described in chapter [4.3](#43-misp2-application).
+   again later as described in chapter [3.3](#33-misp2-application).
 
    ```bash
    Please add the Security Server certificate archive 'certs.tar.gz' to the MISP2 server directory '/usr/xtee/apache2/'.
@@ -489,7 +436,7 @@ The steps for configuring HTTPS:
    long. The passwords will not be displayed while typing.
 
    ```bash
-   Enter the truststore password: 
+   Enter the truststore password:
    Enter the keystore password:
    ```
 
@@ -510,6 +457,7 @@ The steps for configuring HTTPS:
 
    The certificate file (`/usr/xtee/app/cert.cer` in this example) should be
    copied to the Security Server.
+
 3. Configure the Security Server to use HTTPS to connect to the information
    system and add the certificate generated in step 2 (for X-Road v6
    `/usr/xtee/app/cert.cer`) to the Security Server (see the Security Server’s
@@ -518,34 +466,34 @@ The steps for configuring HTTPS:
    of the institution’s Security Server and the address of sending queries
    options from HTTP→HTTPS. If the Security Server’s IP or domain name is
    `SEC_SERVER_IP`, then replace:
-     * http://SEC_SERVER_IP → https://SEC_SERVER_IP
-     * http:// SEC_SERVER_IP/cgi-bin/consumer_proxy → https://
-       SEC_SERVER_IP/cgi-bin/consumer_proxy
+   - http://SEC_SERVER_IP → https://SEC_SERVER_IP
+   - http:// SEC_SERVER_IP/cgi-bin/consumer_proxy → https://
+     SEC_SERVER_IP/cgi-bin/consumer_proxy
 
-### 5.4 Configuration of Mobile-ID
+### 4.4 Configuration of Mobile-ID
 
-#### 5.4.1 Service parameters
+#### 4.4.1 Service parameters
 
 Before moving forward with the configuration, create a `p12` trust store
 containing the correct certificates based on the documentation provided
 in the following sections of SK-s documentation for the JAVA client:
 
-* [How to obtain server certificate](https://github.com/SK-EID/mid-rest-java-client#how-to-obtain-server-certificate).
-* [Validate returned certificate is a trusted MID certificate](https://github.com/SK-EID/mid-rest-java-client#validate-returned-certificate-is-a-trusted-mid-certificate)
+- [How to obtain server certificate](https://github.com/SK-EID/mid-rest-java-client#how-to-obtain-server-certificate).
+- [Validate returned certificate is a trusted MID certificate](https://github.com/SK-EID/mid-rest-java-client#validate-returned-certificate-is-a-trusted-mid-certificate)
 
 Once the trust store has been created, move it to the
-`/var/lib/tomcat8/webapps/misp2/WEB-INF/classes` folder in order to use it
+`/var/lib/tomcat9/webapps/misp2/WEB-INF/classes` folder in order to use it
 from the classpath or to your preferred folder anywhere in the filesystem
 and update the file permissions so that it is accessible by the system user
 `tomcat8`. This can be done with the following command:
 
 ```bash
 # In this example, the truststore was created with the name mid_trust_store.p12
-sudo chown tomcat8:tomcat8 mid_trust_store.p12
+sudo chown tomcat:tomcat mid_trust_store.p12
 ```
 
-In the configuration file, parameters `mobileID.rest.relyingPartyUUID`, 
-`mobileID.rest.relyingPartyName` and `mobileID.rest.hostUrl` must be 
+In the configuration file, parameters `mobileID.rest.relyingPartyUUID`,
+`mobileID.rest.relyingPartyName` and `mobileID.rest.hostUrl` must be
 set up with the correct value. The Certification Centre ([SK ID
 Solutions](https://www.skidsolutions.eu/en/services/mobile-id/technical-information-mid-rest-api/))
 assigns the respective service name value to every institution.
@@ -561,17 +509,17 @@ password contains the key needed to access it.
 **NB!** The `mobileID.rest.trustStore.path` searches from the following places in order:
 
 1. The classpath (e.g. if `mid_trust_store.p12` was placed inside
-   `/var/lib/tomcat8/webapps/misp2/WEB-INF/classes`, then it can be found if path has
+   `/var/lib/tomcat9/webapps/misp2/WEB-INF/classes`, then it can be found if path has
    been configured to `/mid_trust_store.p12`)
-2. The filesystem (e.g. if `mid_trust_store.p12` was placed inside `/var/foo/bar`, then it 
+2. The filesystem (e.g. if `mid_trust_store.p12` was placed inside `/var/foo/bar`, then it
    can be found if path has been configured to `/var/foo/bar/mid_trust_store.p12`)
 
-### 5.5 Other settings
+### 4.5 Other settings
 
-#### 5.5.1 Configuration of the JAVA VM
+#### 4.5.1 Configuration of the JAVA VM
 
 If required, Java system parameters can be modified in the file
-`/etc/default/tomcat8`.
+`/etc/default/tomcat9`.
 
 The installation script configures the memory usage parameters as follows but
 increase the values provided, if required, for example:
@@ -580,21 +528,19 @@ increase the values provided, if required, for example:
 JAVA_OPTS="${JAVA_OPTS} –Xms2048m –Xmx2048m-XX:MaxPermSize=256m"
 ```
 
-#### 5.5.2 Logging settings
+#### 4.5.2 Logging settings
 
 Logging settings are set in the file
-`/var/lib/tomcat8/webapps/misp2/WEB-INF/classes/log4j2.xml`
+`/var/lib/tomcat9/webapps/misp2/WEB-INF/classes/log4j2.xml`
 
-The mainly used properties in the file are `<Root level="info">`, `<Logger
-name="org.hibernate" level="info" additivity="false">`, and `<Logger
-name="ee.aktors.misp2" level="info" additivity="false">`.
+The mainly used properties in the file are `<Root level="info">`, `<Logger name="org.hibernate" level="info" additivity="false">`, and `<Logger name="ee.aktors.misp2" level="info" additivity="false">`.
 
 If there is a need to see more information in the log, set the level of these
 parameters as DEBUG.
 
 For example, instead of `<Root level=”info”>` use `<Root level="debug">`
 
-#### 5.5.3 Adding a HTTPS certificate
+#### 4.5.3 Adding a HTTPS certificate
 
 HTTPS certificates can be added using the keytool command.
 
@@ -606,10 +552,10 @@ keytool -import -keystore /etc/ssl/certs/java/cacerts -storepass changeit -file 
 Restart the Tomcat service for the changes to take affect.
 
 ```bash
-service tomcat8 restart
+systemctl restart tomcat9
 ```
 
-### 5.6 Enabling the Orbeon inspector
+### 4.6 Enabling the Orbeon inspector
 
 The inspector (Orbeon inspector) is an Orbeon module, which allows the user to
 inspect X-Road messages and other application data sent and received by
@@ -617,7 +563,7 @@ services.
 
 In MISP2, the inspector can be enabled by changing the value of the
 `oxf.epilogue.xforms.inspector` parameter in the
-`/var/lib/tomcat8/webapps/orbeon/WEB-INF/resources/config/properties-local.xml`
+`/var/lib/tomcat9/webapps/orbeon/WEB-INF/resources/config/properties-local.xml`
 file.
 
 By default, after MISP2 installation this line is set to false.
@@ -633,7 +579,7 @@ interface.
 
 The Tomcat server does not need to be restarted.
 
-### 5.7 Configuring support for the Estonian ID-card
+### 4.7 Configuring support for the Estonian ID-card
 
 In order to configure the Estonian ID-card based authentication to work
 properly, please complete the following steps after the package has been
@@ -649,68 +595,68 @@ sudo -i
 
 1. Download the required certificates from the Certificate Authority:
 
-    ```bash
-    cd /etc/apache2/ssl
-    wget -O sk_root_2011_crt.pem https://www.sk.ee/upload/files/EE_Certification_Centre_Root_CA.pem.crt
-    wget -O sk_root_2018_crt.pem https://c.sk.ee/EE-GovCA2018.pem.crt
-    wget -O sk_esteid_2011_crt.pem https://www.sk.ee/upload/files/ESTEID-SK_2011.pem.crt
-    wget -O sk_esteid_2015_crt.pem https://www.sk.ee/upload/files/ESTEID-SK_2015.pem.crt
-    wget -O sk_esteid_2018_crt.pem https://c.sk.ee/esteid2018.pem.crt
-    ```
+   ```bash
+   cd /etc/apache2/ssl
+   wget -O sk_root_2011_crt.pem https://www.sk.ee/upload/files/EE_Certification_Centre_Root_CA.pem.crt
+   wget -O sk_root_2018_crt.pem https://c.sk.ee/EE-GovCA2018.pem.crt
+   wget -O sk_esteid_2011_crt.pem https://www.sk.ee/upload/files/ESTEID-SK_2011.pem.crt
+   wget -O sk_esteid_2015_crt.pem https://www.sk.ee/upload/files/ESTEID-SK_2015.pem.crt
+   wget -O sk_esteid_2018_crt.pem https://c.sk.ee/esteid2018.pem.crt
+   ```
 
 2. Create the `client_ca` folder under `/etc/apache2/ssl` install the
    certificates there with the following commands:
 
-    ```bash
-    mkdir client_ca
-    cp -v sk_esteid_2011_crt.pem sk_esteid_2015_crt.pem sk_esteid_2018_crt.pem client_ca/
-    openssl x509 -addtrust clientAuth -trustout -in sk_esteid_2011_crt.pem -out sk_esteid_2011_client_auth_trusted_crt.pem
-    openssl x509 -addtrust clientAuth -trustout -in sk_esteid_2015_crt.pem -out sk_esteid_2015_client_auth_trusted_crt.pem
-    openssl x509 -addtrust clientAuth -trustout -in sk_esteid_2018_crt.pem -out sk_esteid_2018_client_auth_trusted_crt.pem
-    rm sk_esteid_2011_crt.pem sk_esteid_2015_crt.pem sk_esteid_2018_crt.pem
-    c_rehash client_ca/
-    ```
+   ```bash
+   mkdir client_ca
+   cp -v sk_esteid_2011_crt.pem sk_esteid_2015_crt.pem sk_esteid_2018_crt.pem client_ca/
+   openssl x509 -addtrust clientAuth -trustout -in sk_esteid_2011_crt.pem -out sk_esteid_2011_client_auth_trusted_crt.pem
+   openssl x509 -addtrust clientAuth -trustout -in sk_esteid_2015_crt.pem -out sk_esteid_2015_client_auth_trusted_crt.pem
+   openssl x509 -addtrust clientAuth -trustout -in sk_esteid_2018_crt.pem -out sk_esteid_2018_client_auth_trusted_crt.pem
+   rm sk_esteid_2011_crt.pem sk_esteid_2015_crt.pem sk_esteid_2018_crt.pem
+   c_rehash client_ca/
+   ```
 
 3. Install the root certificates by running the following commands under
    `/etc/apache2/ssl`:
 
-    ```bash
-    openssl x509 -addreject clientAuth -trustout -in sk_root_2011_crt.pem -out sk_root_2011_CA_trusted_crt.pem
-    openssl x509 -addreject clientAuth -trustout -in sk_root_2018_crt.pem -out sk_root_2018_CA_trusted_crt.pem
-    rm sk_root_2011_crt.pem sk_root_2018_crt.pem
-    ```
+   ```bash
+   openssl x509 -addreject clientAuth -trustout -in sk_root_2011_crt.pem -out sk_root_2011_CA_trusted_crt.pem
+   openssl x509 -addreject clientAuth -trustout -in sk_root_2018_crt.pem -out sk_root_2018_CA_trusted_crt.pem
+   rm sk_root_2011_crt.pem sk_root_2018_crt.pem
+   ```
 
 4. Install the OCSP certificate by running the following command under
    `/etc/apache2/ssl`:
 
-    ```bash
-    wget -O sk_esteid_ocsp.pem https://www.sk.ee/upload/files/SK_OCSP_RESPONDER_2011.pem.cer
-    ```
+   ```bash
+   wget -O sk_esteid_ocsp.pem https://www.sk.ee/upload/files/SK_OCSP_RESPONDER_2011.pem.cer
+   ```
 
 5. Update the CRL and rehash Apache symbolic links under `ssl` by running the
    following commands under `/etc/apache2/ssl`:
 
-    ```bash
-    ./updatecrl.sh "norestart"
-    c_rehash ./
-    ```
+   ```bash
+   ./updatecrl.sh "norestart"
+   c_rehash ./
+   ```
 
 6. Open the file `/etc/apache2/sites-enabled/ssl.conf` and change the parameter
    `SSLCADNRequestPath` on line 164 to be the following (be sure to also remove
    the `#` from the beginning so that it isn't commented out):
 
-    ```properties
-    SSLCADNRequestPath /etc/apache2/ssl/client_ca/
-    ```
+   ```properties
+   SSLCADNRequestPath /etc/apache2/ssl/client_ca/
+   ```
 
 7. After the configuration file is changed, Apache must be restarted using the
    following command:
 
-    ```bash
-    service apache2 restart
-    ```
+   ```bash
+   systemctl restart apache2
+   ```
 
-#### 5.7.1 Additional ID-card configuration options
+#### 4.7.1 Additional ID-card configuration options
 
 It should be noted that the default configuration is set up so that the authentication certificate is requested on the
 root of the application. This means that the session does not get terminated until the user has closed the browser
@@ -720,13 +666,13 @@ out). If this behaviour is not appropriate for your use-case, it is possible to 
 way that the certificate request and renegotiation happens as a result of the ID-card login action itself.
 To do this, please follow these steps:
 
-* Open the `apache2` configuration file located at `/etc/apache2/sites-enabled/ssl.conf` with your preferred text
-editor.
-* Modify the line (160) `SSLProtocol All -SSLv2 -SSLv3` so that it reads `SSLProtocol -all +TLSv1.2` instead.
-* Remove the following lines from the block `<VirtualHost *:443>`:
-  * (line 168) SSLOptions +StdEnvVars +ExportCertData
-  * (line 169) SSLVerifyClient optional
-* Add the following `<Location>` block inside the `<VirtualHost *:443>` block:
+- Open the `apache2` configuration file located at `/etc/apache2/sites-enabled/ssl.conf` with your preferred text
+  editor.
+- Modify the line (160) `SSLProtocol All -SSLv2 -SSLv3` so that it reads `SSLProtocol -all +TLSv1.2` instead.
+- Remove the following lines from the block `<VirtualHost *:443>`:
+  - (line 168) SSLOptions +StdEnvVars +ExportCertData
+  - (line 169) SSLVerifyClient optional
+- Add the following `<Location>` block inside the `<VirtualHost *:443>` block:
 
 ```xml
 <Location "/*/IDCardLogin.action">
@@ -735,28 +681,28 @@ editor.
 </Location>
 ```
 
-* Reload the configuration: `service apache2 reload`.
+- Reload the configuration: `service apache2 reload`.
 
 **NB!** It should be noted that this approach configures the server so that it will only use TLS 1.2 and not TLS 1.3.
 This is due to browsers currently not supporting `post-handshake authentication` that is required for this to work:
 
-* https://bugs.chromium.org/p/chromium/issues/detail?id=911653
-* https://bugzilla.mozilla.org/show_bug.cgi?id=1511989
+- https://bugs.chromium.org/p/chromium/issues/detail?id=911653
+- https://bugzilla.mozilla.org/show_bug.cgi?id=1511989
 
-### 5.8 Updating EHAK classifiers to EHAK2021v4
+### 4.8 Updating EHAK classifiers to EHAK2021v4
 
 **NB!** The current EHAK classifiers in MISP2 are specific to Estonia, if you are using MISP2 in another country or are
 not using the classifiers, you do not need to run the update.
 
 To update the EHAK classifiers in the database, please follow these steps:
 
-* Download the update file [EHAK2021v4.sql](./EHAK2021v4.sql) and move it to an appropriate location on the MISP2
+- Download the update file [EHAK2021v4.sql](./EHAK2021v4.sql) and move it to an appropriate location on the MISP2
   server.
-* Execute the following command on the server: `psql -p 5432 misp2db -U postgres -f /path/to/EHAK2021v4.sql`
-  * If you chose a different database name during installation, substitue `misp2db` with that. If you are unsure, the
-    details can be checked from `/var/lib/tomcat8/webapps/misp2/WEB-INF/classes/config.cfg`.
+- Execute the following command on the server: `psql -p 5432 misp2db -U postgres -f /path/to/EHAK2021v4.sql`
+  - If you chose a different database name during installation, substitue `misp2db` with that. If you are unsure, the
+    details can be checked from `/var/lib/tomcat9/webapps/misp2/WEB-INF/classes/config.cfg`.
 
-## 6 MISP2 administration interface
+## 5 MISP2 administration interface
 
 Append `/admin` to the portal URL to enter the administration interface. For
 example: `https://<portaali_aadress>/misp2/admin/`.
@@ -765,19 +711,19 @@ Before accessing the administration interface admin account needs to be created
 and access to the interface has to be enabled from authorized ip-adresses in
 apache web server configuration.
 
-### 6.1 Administration of MISP2 administrator accounts from the command line
+### 5.1 Administration of MISP2 administrator accounts from the command line
 
 A utility is installed alongside MISP2 to help manage administrator accounts,
 for more information on how to use it, please refer to the
 [Admin Tool Manual](../utils/admin-tool/manual.md).
 
-### 6.2 Additions to the Apache web server configuration
+### 5.2 Additions to the Apache web server configuration
 
 When administrator account has been created according to previous section, you
 need to specify allowed IP addresses from where the admin web interface can be
 accessed.
 
-#### 6.2.1 Using the tool
+#### 5.2.1 Using the tool
 
 This is done by modifying the Apache configuration file, but there is also a
 tool for that. It provides you with good defaults. The tool can be started:
@@ -795,7 +741,7 @@ usage can be obtained using:
 /usr/xtee/app/configure_admin_interface_ip.sh help
 ```
 
-#### 6.2.2 Editing manually
+#### 5.2.2 Editing manually
 
 If you wish to change or edit the IP addresses allowed to access the
 administrator interface, you can edit the Apache configuration file:
@@ -807,8 +753,8 @@ vi /etc/apache2/sites-available/ssl.conf
 Find the following lines in this file:
 
 ```properties
-<Location "/*/admin/*"> 
-  Order deny,allow 
+<Location "/*/admin/*">
+  Order deny,allow
   Deny from all
   Allow from 127.0.0.1
 </Location>
@@ -824,24 +770,24 @@ Allow from 127.0.0.1 192.168.215.233
 Restart the web server:
 
 ```bash
-/etc/init.d/apache2 restart
+systemctl restart apache2
 ```
 
-### 6.3 Portal administration
+### 5.3 Portal administration
 
 This chapter describes the administration of a portal in the MISP2 web
 application.
 
-#### 6.3.1 Creating portal
+#### 5.3.1 Creating portal
 
 Enter the administration interface to create a portal. A form containing the
 following fields is displayed to create a new portal:
 
-* **Portal name** * – the name of the portal
-* **Portal short name** * – a short name for the portal used to identify the
+- **Portal name** \* – the name of the portal
+- **Portal short name** \* – a short name for the portal used to identify the
   portal for the application and saving the history of activities. The short
   name of the portal must be unique within the application.
-* **Organization name** * and **Organization code** * are the name and the
+- **Organization name** _ and **Organization code** _ are the name and the
   registry code of the main institution associated with the portal. The registry
   code of the main institution is included with every query. If the registry
   code of the main institution corresponds to an existing institution in the
@@ -849,33 +795,33 @@ following fields is displayed to create a new portal:
   existing institution name is overwritten with the name entered last. X-Road
   version 6 also uses the institution’s registry code as the member code in the
   header of an X-Road query (xrd:client/iden:memberCode).
-* **Portal type** – indicates the type of portal. Portal types are described in
+- **Portal type** – indicates the type of portal. Portal types are described in
   more detail in Chapter 1 of the user's guide. Possible options are as follows:
-  * Open services portal
-  * Organization's portal
-  * Universal portal
-* **X-Road protocol version** determines the message format for the portal’s
+  - Open services portal
+  - Organization's portal
+  - Universal portal
+- **X-Road protocol version** determines the message format for the portal’s
   users and meta services. This is used when communicating with the X-Road
   Security Server. It should always be set to 4.0 (X-Road version 6).
-* **X-Road member class** – a configuration parameter, which determines the
+- **X-Road member class** – a configuration parameter, which determines the
   general category of the X-Road client, i.e. whether it is a government
   institution (GOV), commercial institution (COM) or some other kind of
   institution. The option becomes available if X-Road has been configured to use
   protocol 4.0. The parameter is included in the header of X-Road queries in the
   xrd:client/iden:memberClass line.
-* **X-Road subsystem code** – a configuration parameter, which allows for the
+- **X-Road subsystem code** – a configuration parameter, which allows for the
   differentiation of various X-Road client and server applications within the
   same institution. The option becomes available if X-Road has been configured
   to use protocol 4.0. The parameter is included in the header of X-Road queries
   in the xrd:client/iden:subsystemCode line.
-* **Security host** * – the address of your Security Server.
-* **X-Road client instance** – a configuration parameter of X-Road version 6,
+- **Security host** \* – the address of your Security Server.
+- **X-Road client instance** – a configuration parameter of X-Road version 6,
   which determines the X-Road environment used, e.g. ee-dev and EE denote the
   Estonian X-Road development environment and production environment,
   respectively. The option becomes available if X-Road has been configured to
   use protocol 4.0. The parameter is included in the header of X-Road queries in
   the xrd:client/iden:xRoadInstance field.
-* **X-Road instances for services** – can be used to select from a predetermined
+- **X-Road instances for services** – can be used to select from a predetermined
   list which X-Road instances are used when services are updated in the portal
   manager. Based on this selection, the manager can determine which X-Road
   instance services are included in the manager’s interface.
@@ -892,28 +838,29 @@ following fields is displayed to create a new portal:
 
   The service instance is included in X-Road queries in the
   xrd:service/iden:xRoadInstance line.
-* **Services sending address** * – the address of the server through which all
+
+- **Services sending address** \* – the address of the server through which all
   queries pass
-* **Developer view** – if set to `On`, adds an `add database` (add database
+- **Developer view** – if set to `On`, adds an `add database` (add database
   manually) button to the `Services` section of the service- or portal manager.
   A `From WDSL` button is added to the database subsection. This allows for a
   list of services to be updated by using WSDL.
-* **Send audit log to Security Server** – determines whether a logOnly request
+- **Send audit log to Security Server** – determines whether a logOnly request
   will be sent to the Security Server, so that actions logged in the MISP2
   application are also included in the Security Server’s logs. The `logOnly`
-  service data must also be entered: `logOnly` service member class, `logOnly
-  service member code` and `logOnly service subsystem code`. These fields are
+  service data must also be entered: `logOnly` service member class, `logOnly service member code` and `logOnly service subsystem code`. These fields are
   only displayed in the administrator portal if X-Road version 6 is used.
 
   To start the `logOnly.v1` service, the `misp2-soap-service-v6.war` addon
   module is included in MISP2, which the manager can run in its environment.
   This is described in further detail in the installation guide for addon
   modules.
-* **Topics in use** – if this is marked, services will be grouped for users
+
+- **Topics in use** – if this is marked, services will be grouped for users
   according to topics. Portal administrator deals with topics administration.
   Topics administration will be discussed in another chapter. If topics are not
   used, services will be grouped per database as usual.
-* **The folder field is used in the input of the service** – this field is no
+- **The folder field is used in the input of the service** – this field is no
   longer used in the lastest version of X-Road
 
 After entering all of the required data, click on `Save portal configuration`.
@@ -924,25 +871,24 @@ Portal administration is somewhat different in the case of a universal portal.
 The following fields must be completed for a universal portal in addition to the
 standard fields:
 
-* **Unit registering is allowed** – a check box indicating whether the
+- **Unit registering is allowed** – a check box indicating whether the
   registration of new units by users is allowed in the application. If marked,
-  the following fields marked with ** must be filled in.
-* **Auth query service name** ** – the name of the meta query used to check the
+  the following fields marked with \*\* must be filled in.
+- **Auth query service name** \*\* – the name of the meta query used to check the
   unit’s representation rights. The protal presents the user with a selection of
   services previously defined in the configuration file. In a universal portal,
   services are defined in the `uniportal-conf.cfg` file. In a legal person
   portal, the services for sending queries to determine the right of
   representation are defined in the `orgportal-conf.cfg` file.
-* **Check query service name*** – the name of the query used to check the unit’s
+- **Check query service name\*** – the name of the query used to check the unit’s
   validity. The portal presentsthe user with a selection of services previously
   defined in the `uniportal-conf.cfg` configuration file.
-* **Auth query control time (hours)** ** – the period of time after which a new
+- **Auth query control time (hours)** \*\* – the period of time after which a new
   query must be performed as the validity of the old query ends.
-* **Auth query maximum control time (hours)** ** – the maximum time period
+- **Auth query maximum control time (hours)** ** – the maximum time period
   allowed during which users can perform queries related to an institution’s
-  rights if the check query does not respond.* **Use permission manager** – if
-  checked, the `user with representation rights` section will include an `access
-  rights manager` menu option, provided that the current role has been accessed
+  rights if the check query does not respond.\* **Use permission manager\*\* – if
+  checked, the `user with representation rights` section will include an `access rights manager` menu option, provided that the current role has been accessed
   via the `registrar` role. If it has been accessed via the `portal manager`
   role, this option is always visible. Using this menu option, users with
   representation rights can assign query-performing rights to access rights
@@ -951,13 +897,13 @@ standard fields:
   person portals, as they are a sub- type of the universal portal. Note that for
   legal person portals this value is valid only if institutions have rights of
   exclusive representation.
-* **Portal unit is X-Road organization** – if selected, the code of the active
+- **Portal unit is X-Road organization** – if selected, the code of the active
   unit is included in service message headers in the `consumer` field. If left
   unselected, the code of the main institution is included in service message
   headers in the `consumer` field and the code of the active unit is included in
   the `unit` field.
 
-#### 6.3.2 Modifying portal
+#### 5.3.2 Modifying portal
 
 Enter the administrator interface to modify a portal. The portal registered to
 you is displayed. Click on `Save portal configuration` to save the changes. You
@@ -965,13 +911,13 @@ cannot change the portal type. To do this, you must delete the existing portal
 and add a new one. The registry code of the main institution associated with the
 portal cannot be changed.
 
-#### 6.3.3 Deleting portal
+#### 5.3.3 Deleting portal
 
-You can delete a portal via the administration interface by clicking on `Remove
-portal` on the portal administration form. The portal and all objects associated
-with it are removed from the application if this button is pressed.
+You can delete a portal via the administration interface by clicking on
+`Remove portal` on the portal administration form. The portal and all objects
+associated with it are removed from the application if this button is pressed.
 
-#### 6.3.4 Adding portal manager
+#### 5.3.4 Adding portal manager
 
 Click on `Add new manager` on the portal configuration form to add a portal
 administrator. As a result, you will be directed to the managers view, where you
@@ -998,7 +944,7 @@ the main institution.
 Clicking on `Add as manager` immediately adds the user as a portal
 administrator.
 
-#### 6.3.5 Removing a portal administrator
+#### 5.3.5 Removing a portal administrator
 
 Use the portal configuration form to remove a portal administrator. This form
 includes the list of existing administrators.
@@ -1006,11 +952,10 @@ includes the list of existing administrators.
 The user is removed from the portal administrator role by clicking on the X-icon
 in the administrator’s row.
 
-### 6.4 Administration of global XLSs
+### 5.4 Administration of global XLSs
 
 In addition to managing the portal, administrator rights also include the adding
 and administration of global XSLs used by the portal. Global XSLs are XSLs
 applied last to all queries according to priorities. The administration of
 global XSLs is similar to the administration of XSLs internal to the portal.
 (See the description of the service administrator role in the User’s Guide.)
-

@@ -66,7 +66,7 @@ prefix=xtee-misp2
 repo_name="repo"
 distros=$(get_distros "$*")
 packages=$(get_packages "$*" "$prefix")
-default_distro="bionic"
+default_distro="jammy"
 
 if (gpg --list-secret-keys | grep -q sec) && ! contains_word "$*" "-nosign" 
 then

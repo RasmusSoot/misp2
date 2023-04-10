@@ -7,7 +7,7 @@ Standards-Version: 3.6.1
 
 Package: xtee-misp2-base
 Architecture: amd64
-Depends: ${misc:Depends}, apache2, libapache2-mod-jk, perl, openjdk-8-jre-headless | adoptopenjdk-8-hotspot-jre, tomcat8
+Depends: ${misc:Depends}, apache2, libapache2-mod-jk, perl, openjdk-8-jre-headless | java8-runtime-headless | java8-runtime, tomcat9
 Description: Apache Tomcat and Apache2 setup package for MISP2 application use
  This package creates needed basic settings for Apache2 and Tomcat needed 
  by MISP2 application package. Settings include self-signed HTTPS server 

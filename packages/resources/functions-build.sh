@@ -356,7 +356,7 @@ function compile_packages {
 # Echo space-separated list of supported Ubuntu distribution code names to standard out.
 ##
 function get_supported_distros {
-	echo "xenial bionic"
+	echo "bionic jammy"
 }
 
 ##
@@ -401,21 +401,16 @@ function adjust_to_distro {
 	echo "adjust_to_distro: Prefix '$prefix'"	
 
 	# Set distribution-specific variables
-	if [ "$distro_codename" == "trusty" ]
-	then
-		local distro_full_name="Ubuntu 14.04 Trusty Tahr"
-		local new_postgresql_version=9.3
-		local new_tomcat_version=7
-	elif [ "$distro_codename" == "xenial" ]
-	then
-		local distro_full_name="Ubuntu 16.04 Xenial Xerus"
-		local new_postgresql_version=9.5
-		local new_tomcat_version=7
-	elif [ "$distro_codename" == "bionic" ]
+	if [ "$distro_codename" == "bionic" ]
 	then
 		local distro_full_name="Ubuntu 18.04 Bionic Beaver"
 		local new_postgresql_version=10
 		local new_tomcat_version=8
+	elif [ "$distro_codename" == "jammy" ]
+	then
+		local distro_full_name="Ubuntu 22.04 Jammy Jellyfish"
+		local new_postgresql_version=14
+		local new_tomcat_version=9
 	else
 		echo "adjust_to_distro: Distribution '$distro_codename' not implemented."
 		exit 1
@@ -492,6 +487,12 @@ function adjust_to_distro {
 			echo "Commenting out Jasper listener in $server_xml."
 			perl -pi -e 's/.*JasperListener.*/  <!--  <Listener className="org.apache.catalina.core.JasperListener" \/>-->/g' \
 				$server_xml
+      if [ $new_tomcat_version -eq 9 ]
+      then
+        echo "Changing AJP connector configuration"
+        perl -pi -e 's/.*Connector.*protocol="AJP\/1.3".*/<Connector address="127.0.0.1" URIEncoding="UTF-8" port="8009" redirectPort="8443" protocol="AJP\/1.3" secretRequired="false" allowedRequestAttributesPattern="SSL_CLIENT.*" \/>/g' \
+          $server_xml
+      fi
 		else	
 			echo "Tomcat $new_tomcat_version -> Keeping Jasper listener conf in $server_xml."
 			perl -pi -e 's/.*JasperListener.*/  <Listener className="org.apache.catalina.core.JasperListener" \/>/g' \
