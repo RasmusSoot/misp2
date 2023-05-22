@@ -290,12 +290,12 @@ then
 	if ! (echo "$existing_users" | tr " " "\n" | grep -wq "$username")
 	then
 		echo "Adding new user '$username'"
-		$pgsql_dir/createuser  -p $pgport -U postgres -P -A -D $username
+		$pgsql_dir/createuser  -p $pgport -U postgres -P -D $username
 		if [ ! "$PIPESTATUS" = "0" ];
 		then
 			echo "Cannot add new user '$username'"
-			echo "If user does not exist in the database then create him by running: "
-			echo "$pgsql_dir/createuser -p $pgport -U postgres -P -A -D $username"
+			echo "If user does not exist in the database then create them by running: "
+			echo "$pgsql_dir/createuser -p $pgport -U postgres -P -D $username"
 			echo
 			echo "When user is created please press Enter"
 			read < /dev/tty

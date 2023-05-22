@@ -32,3 +32,8 @@ packages/repo-unsigned/dists/
 # Docker dev environment
 /docker-dev/pgdata
 /docker-dev/webapps
+
+# Devenv
+.devenv*
+devenv.local.nix
+

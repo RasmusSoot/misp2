@@ -27,9 +27,9 @@ fi
 #
 
 xrd_prefix=/usr/xtee
-# use value of CATALINA_BASE or CATALINA_HOME or /var/lib/tomcat8 in priority order
-catalina_base="${CATALINA_BASE:-${CATALINA_HOME:-/var/lib/tomcat8}}"
-tomcat_defaults=/etc/default/tomcat8
+# use value of CATALINA_BASE or CATALINA_HOME or /var/lib/tomcat9 in priority order
+catalina_base="${CATALINA_BASE:-${CATALINA_HOME:-/var/lib/tomcat9}}"
+tomcat_defaults=/etc/default/tomcat9
 apache2_home=/etc/apache2
 mod_jk_home=/etc/libapache2-mod-jk
 apache2_misp2_home=${apache2_home}/ssl
@@ -85,7 +85,7 @@ function etc_default_tomcat_java_variables_for_misp2() {
     #shellcheck disable=SC2016
     grep -q -e 'Xmx1g' "${tomcat_defaults_file}" || echo 'JAVA_OPTS="${JAVA_OPTS} -Xmx1g"' >> "${tomcat_defaults_file}"
 
-    # replace JAVA_HOME variable in tomcat8 configuration with environment variable if that exists
+    # replace JAVA_HOME variable in tomcat9 configuration with environment variable if that exists
     if [ -d "$JAVA_HOME" ] && grep -q '#JAVA_HOME' "${tomcat_defaults_file}"; then
         # regex replace
         #  - separator is ':'
@@ -127,7 +127,7 @@ function configure_ajp_local_access_tomcat_server_xml() {
     if [ "$str_ajp_connector" != "" ]; then
         if ! (echo "$str_ajp_connector" | grep -Eq 'address\s*=\s*'); then
             perl -pi -e 's|'"$regex_ajp_connector"'|$1 address="127.0.0.1"$2|g' "$tomcat_server_xml"
-            /usr/sbin/invoke-rc.d tomcat8 restart
+            /usr/sbin/invoke-rc.d tomcat9 restart
         fi
     else
         echo "WARNING: AJP connector not found from '$tomcat_server_xml'. Cannot configure local AJP access." >> /dev/stderr

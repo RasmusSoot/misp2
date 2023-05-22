@@ -35,7 +35,7 @@ Description: ERROR: Incorrect PEM file format
 Template: xtee-misp2-base/text_error_tomcat_instance_not_found
 Type: error
 Description: ERROR: Tomcat instance root ${catalina_base_var} is not found.
- Check tomcat8 installation and env values of CATALINA_BASE (${CATALINA_BASE}) and 
+ Check tomcat9 installation and env values of CATALINA_BASE (${CATALINA_BASE}) and 
  CATALINA_HOME (${CATALINA_HOME}) environment variables.
 
 Template: xtee-misp2-base/text_error_apache2_home_not_found

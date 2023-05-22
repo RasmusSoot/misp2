@@ -7,15 +7,15 @@
 
         <File
             name="SingleFileAppender"
-            fileName="/var/log/tomcat8/orbeon.log"
+            fileName="/var/log/tomcat9/orbeon.log"
             append="false">
             <PatternLayout pattern="%date{ISO8601} %-5level %logger{1} - %message%n"/>
         </File>
 
         <RollingFile
             name="RollingFile"
-            fileName="/var/log/tomcat8/orbeon.log"
-            filePattern="/var/log/tomcat8/orbeon-%date{MM-dd-yyyy}.log.gz"
+            fileName="/var/log/tomcat9/orbeon.log"
+            filePattern="/var/log/tomcat9/orbeon-%date{MM-dd-yyyy}.log.gz"
             append="false"
             ignoreExceptions="false">
             <PatternLayout pattern="%date{ISO8601} %-5level %logger{1} - %message%n"/>

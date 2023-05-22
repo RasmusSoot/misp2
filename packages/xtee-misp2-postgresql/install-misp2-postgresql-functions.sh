@@ -249,10 +249,10 @@ function migrate_db_if_needed {
 			perl -pi -e "s/^\s*jdbc\.password\s*=[^\r\n#]*/jdbc.password=$perl_replacement_password/" $webapp_conf
 
 			# Restart webapp if it is running
-			if (service tomcat8 status | grep -q "Active: active (running)")
+			if (service tomcat9 status | grep -q "Active: active (running)")
 			then
 				echo "Restarting webapp."
-				service tomcat8 restart
+				service tomcat9 restart
 			fi
 
 			echo "Password successfully changed."

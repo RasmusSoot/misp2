@@ -63,7 +63,7 @@ dependencies {
 }
 
 group = 'misp2'
-version = '2.8.0'
+version = '2.9.0'
 description = 'MISP2 web application'
 java.sourceCompatibility = JavaVersion.VERSION_1_8
 

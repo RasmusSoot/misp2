@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-tomcat_webapps=/var/lib/tomcat8/webapps
+tomcat_webapps=/var/lib/tomcat9/webapps
 misp2_instance="$tomcat_webapps/misp2"
 misp2_war_file_pattern="$tomcat_webapps/misp2.war"
 case "$1" in

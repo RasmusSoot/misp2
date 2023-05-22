@@ -6,7 +6,7 @@
 # Copyright(c) Aktors 2016
 
 xrd_prefix=/usr/xtee
-tomcat_home=/var/lib/tomcat8
+tomcat_home=/var/lib/tomcat9
 orbeon_deploy_dir=$tomcat_home/webapps/orbeon
 orbeon_config=$orbeon_deploy_dir/WEB-INF/resources/config
 orbeon_config_backup_dir=$(mktemp --directory --tmpdir orbeon_bck.XXXXXX)
@@ -96,8 +96,8 @@ function wait_for_orbeon_undeployment {
 }
 
 function ensure_tomcat_is_running() {
-	while ! /usr/sbin/invoke-rc.d tomcat8 status > /dev/null 2>&1; do
-        /usr/sbin/invoke-rc.d tomcat8 start > /dev/null
+	while ! /usr/sbin/invoke-rc.d tomcat9 status > /dev/null 2>&1; do
+        /usr/sbin/invoke-rc.d tomcat9 start > /dev/null
         sleep 1
     done
 }
@@ -146,7 +146,7 @@ then
 	restore_orbeon_config
 fi
 
-/usr/sbin/invoke-rc.d tomcat8 restart       
+/usr/sbin/invoke-rc.d tomcat9 restart       
 
 # Check if Orbeon has been successfully deployed
 if ! orbeon_deployed

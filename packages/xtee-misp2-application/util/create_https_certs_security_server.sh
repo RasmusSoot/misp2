@@ -4,10 +4,10 @@ set -e
 #must be at least 6 characters
 truststore_path=/usr/xtee/apache2/misp2truststore.jks
 keystore_path=/usr/xtee/apache2/misp2keystore.jks
-tomcat_path=/etc/default/tomcat8
+tomcat_path=/etc/default/tomcat9
 tomcat_restart=$1
-tomcat_home=/var/lib/tomcat8
-tomcat_init=/etc/init.d/tomcat8
+tomcat_home=/var/lib/tomcat9
+tomcat_init=/etc/init.d/tomcat9
 conf_dir=/usr/xtee/apache2
 create_sslproxy_cert=/etc/apache2/ssl/create_sslproxy_cert.sh
 
@@ -20,7 +20,7 @@ function fix_dir_permissions_to_755_owner_root() {
     dir="$1"
     if [ "$(id -u)" == "0" ] \
         && (stat -c %A "$dir" | grep -xq "drwx------") \
-        && ! (stat -c %U "$dir" | grep -xq "tomcat8"); then
+        && ! (stat -c %U "$dir" | grep -xq "tomcat9"); then
         # Change ownership of $conf_dir to root if it is not already
         if ! (stat -c %U "$dir" | grep -xq "root"); then
             echo "Changing '$dir' ownership to root."

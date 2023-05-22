@@ -19,7 +19,7 @@ app_name=misp2
 # installation locations
 #
 xrd_prefix=/usr/xtee
-tomcat_home=/var/lib/tomcat8
+tomcat_home=/var/lib/tomcat9
 apache2=/etc/apache2
 misp2_tomcat_resources=$tomcat_home/webapps/$app_name/WEB-INF/classes
 mobile_id_truststore_path="$misp2_tomcat_resources/mobiili_id_trust_store.p12"
@@ -196,14 +196,14 @@ function add_trusted_apache_certs_to_jks_store {
 ##
 function ensure_tomcat_is_running() {
     local status_adverb=
-    while ! /usr/sbin/invoke-rc.d tomcat8 status > /dev/null; do # do not show output, too verbose
+    while ! /usr/sbin/invoke-rc.d tomcat9 status > /dev/null; do # do not show output, too verbose
         ci_fails "Tomcat service is not running"
-        echo "tomcat8 service is not running, attempting to start it." >> /dev/stderr
-        /usr/sbin/invoke-rc.d tomcat8 start
+        echo "tomcat9 service is not running, attempting to start it." >> /dev/stderr
+        /usr/sbin/invoke-rc.d tomcat9 start
         status_adverb=" now"
         sleep 1
     done
-    echo "tomcat8 service is$status_adverb running." >> /dev/stderr
+    echo "tomcat9 service is$status_adverb running." >> /dev/stderr
 }
 
 function query_for_valid_tomcat_home_dir_if_needed() {
@@ -563,9 +563,9 @@ else
 fi
 
 #Remove cached jsp-s, because for some reason Tomcat does not recompile jsp-s currently. After this deletion however, tomcat will compile jsp-s
-rm -f -r /var/cache/tomcat8/Catalina/localhost/$app_name/org/apache/jsp
+rm -f -r /var/cache/tomcat9/Catalina/localhost/$app_name/org/apache/jsp
 
 echo "Restarting Tomcat..." >> /dev/stderr
-/usr/sbin/invoke-rc.d tomcat8 restart
+/usr/sbin/invoke-rc.d tomcat9 restart
 
 final_greetings_success
